@@ -1,0 +1,51 @@
+package com.customer.Application;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class CustomerRegistration {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+setUpDBConnection();
+insertDetails("Garima", "De", "C01", "ria@xyz", 1234567891, "Baguiati,Kolkata", "Kolkata", "464578", "ria1520" );
+	}
+public static void setUpDBConnection()
+{
+	try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","hr","hr");
+		System.out.println("Connection established");
+	} catch (ClassNotFoundException | SQLException e ) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+}
+public static void insertDetails(String first_name, String last_name, String customer_id,String EMail,int customer_number,String Address,String State,String zip,String password)
+{
+
+	try {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl","hr","hr");
+		//System.out.println("Connection established");
+		
+		Statement statement = connection.createStatement();
+		String insertQuery = "insert into Customer values ('"+first_name+"','"+last_name+"','"+customer_id+"','"+EMail+"','"+customer_number+"','"+Address+"','"+State+"','"+zip+"','"+password+"')";
+		int noOfRowsInserted = statement.executeUpdate(insertQuery);
+		if(noOfRowsInserted ==1) {
+			System.out.println("NO OF ROWS INSERTED : " + noOfRowsInserted);
+		}
+		else {
+			System.out.println("No rows inserted!");
+		}
+		
+	} catch (ClassNotFoundException | SQLException e ) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+}
+}
